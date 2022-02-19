@@ -31,3 +31,6 @@ seed-db:
 
 run-dev:
 	@air -c ./config/.air.toml
+
+format:
+	@go fmt core/...
