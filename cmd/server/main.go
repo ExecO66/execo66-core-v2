@@ -7,7 +7,12 @@ import (
 )
 
 func main() {
-	config.Config.Load()
+	config.Config.Load(func() string {
+		if config.IsProd {
+			return "./config/.env.prod"
+		}
+		return "./config/.env.dev"
+	}())
 
 	entity.NewDbClient().Connect(config.Config.DbConnString)
 
