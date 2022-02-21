@@ -2,3 +2,11 @@
 
 **/.env.dev
 **/.env.prod
+
+**/__debug_bin.exe
+
+.vscode/**/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
