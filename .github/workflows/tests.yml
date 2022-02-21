@@ -46,7 +46,7 @@ jobs:
           cat ./config/.env.dev
       - name: Install golang-migrate
         run: |
-          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz -C /usr/bin/migrate
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz -C /usr/bin
       - name: Setup databse
         run: make migrate
       - name: Seed database
