@@ -71,11 +71,12 @@ var PostUserStatus = gin.HandlerFunc(func(c *gin.Context) {
 	if queryErr != nil {
 
 		newUser, err := queries.InsertUser(queries.InsertUserEntity{
-			Username:   state.Username,
-			Email:      state.Email,
-			UserStatus: body.UserStatus,
-			Provider:   state.Provider,
-			ProviderId: state.ProviderId,
+			Username:       state.Username,
+			Email:          state.Email,
+			UserStatus:     body.UserStatus,
+			Provider:       state.Provider,
+			ProviderId:     state.ProviderId,
+			ProfilePicture: state.ProfilePicture,
 		})
 
 		if err != nil {

@@ -32,12 +32,13 @@ var Default = func(c *gin.Context) Session {
 }
 
 type SessionUser struct {
-	Id         string
-	Username   string
-	Email      string
-	UserStatus enum.UserStatus
-	Provider   enum.LoginProvider
-	ProviderId string
+	Id             string
+	Username       string
+	Email          string
+	UserStatus     enum.UserStatus
+	Provider       enum.LoginProvider
+	ProviderId     string
+	ProfilePicture string
 }
 
 func (s *session) Save() {
@@ -57,10 +58,11 @@ func (s *session) GetSessionUser() (*SessionUser, error) {
 }
 
 type PendingAuthState struct {
-	Username   string
-	Email      string
-	Provider   enum.LoginProvider
-	ProviderId string
+	Username       string
+	Email          string
+	Provider       enum.LoginProvider
+	ProviderId     string
+	ProfilePicture string
 }
 
 func (s *session) SetPendingAuth(state PendingAuthState) {

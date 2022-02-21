@@ -46,10 +46,11 @@ var GetGoogleAuthCb = gin.HandlerFunc(func(c *gin.Context) {
 	// user does not exist yets
 	if queryErr != nil {
 		s.SetPendingAuth(session.PendingAuthState{
-			Username:   googleUser.Name,
-			Email:      googleUser.Email,
-			Provider:   enum.Google,
-			ProviderId: googleUser.ProviderId,
+			Username:       googleUser.Name,
+			Email:          googleUser.Email,
+			Provider:       enum.Google,
+			ProviderId:     googleUser.ProviderId,
+			ProfilePicture: googleUser.ImageUrl,
 		})
 		s.Save()
 		c.Redirect(http.StatusPermanentRedirect, config.Config.ClientBaseUrl+"/auth/user-status")

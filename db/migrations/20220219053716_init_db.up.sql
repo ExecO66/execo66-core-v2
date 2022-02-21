@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS "user"(
     email text NOT NULL,
     user_status user_status_enum NOT NULL,
     provider login_provider_enum NOT NULL,
-    provider_id text NOT NULL
+    provider_id text NOT NULL,
+    profile_picture text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS assignment(

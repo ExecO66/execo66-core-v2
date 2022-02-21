@@ -8,12 +8,13 @@ import (
 )
 
 type GetUserByProviderIdModel struct {
-	Id         string
-	Username   string
-	Email      string
-	UserStatus enum.UserStatus
-	Provider   enum.LoginProvider
-	ProviderId string
+	Id             string
+	Username       string
+	Email          string
+	UserStatus     enum.UserStatus
+	Provider       enum.LoginProvider
+	ProviderId     string
+	ProfilePicture string
 }
 
 func GetUserByProviderId(providerId string) (GetUserByProviderIdModel, error) {
@@ -24,7 +25,8 @@ func GetUserByProviderId(providerId string) (GetUserByProviderIdModel, error) {
         email, 
         user_status, 
         provider, 
-        provider_id 
+        provider_id,
+		profile_picture
     FROM public.user 
     WHERE provider_id=$1;`
 
@@ -33,15 +35,16 @@ func GetUserByProviderId(providerId string) (GetUserByProviderIdModel, error) {
 		GetUserByProviderIdModel
 	}
 
-	err := entity.DbClient.Db.QueryRow(sql, providerId).Scan(&dbModel.Id, &dbModel.Username, &dbModel.Email, &dbModel.UserStatus, &dbModel.Provider, &dbModel.ProviderId)
+	err := entity.DbClient.Db.QueryRow(sql, providerId).Scan(&dbModel.Id, &dbModel.Username, &dbModel.Email, &dbModel.UserStatus, &dbModel.Provider, &dbModel.ProviderId, &dbModel.ProfilePicture)
 
 	model := GetUserByProviderIdModel{
-		Id:         string(dbModel.Id.Bytes[:]),
-		Username:   dbModel.Username,
-		Email:      dbModel.Email,
-		UserStatus: dbModel.UserStatus,
-		Provider:   dbModel.Provider,
-		ProviderId: dbModel.ProviderId,
+		Id:             string(dbModel.Id.Bytes[:]),
+		Username:       dbModel.Username,
+		Email:          dbModel.Email,
+		UserStatus:     dbModel.UserStatus,
+		Provider:       dbModel.Provider,
+		ProviderId:     dbModel.ProviderId,
+		ProfilePicture: dbModel.ProfilePicture,
 	}
 
 	return model, err

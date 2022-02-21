@@ -10,11 +10,12 @@ ORDER BY table_name;
 
 BEGIN;
 
-INSERT INTO "user" (id, username, email, user_status, provider, provider_id)
+INSERT INTO "user" (id, username, email, user_status, provider, provider_id, profile_picture)
 VALUES 
-('00000000-0000-0000-0000-000000000001','Bob Schoolers', 'bob@gmail.com', 'student', 'google', '198a4d'),('00000000-0000-0000-0000-000000000002','Jimmy Joe', 'jimmy@gmail,com', 'student', 'google', '214vaa'),
-('00000000-0000-0000-0000-000000000003','James Madison', 'james@gmail,com', 'teacher', 'google', 'g119j1'),
-('00000000-0000-0000-0000-000000000004','George Washington', 'george@gmail,com', 'teacher', 'google', 'oiagq1');
+('00000000-0000-0000-0000-000000000001','Bob Schoolers', 'bob@gmail.com', 'student', 'google', '198a4d', 'https://picsum.photos/200/200'),
+('00000000-0000-0000-0000-000000000002','Jimmy Joe', 'jimmy@gmail,com', 'student', 'google', '214vaa', 'https://picsum.photos/200/200'),
+('00000000-0000-0000-0000-000000000003','James Madison', 'james@gmail,com', 'teacher', 'google', 'g119j1', 'https://picsum.photos/200/200'),
+('00000000-0000-0000-0000-000000000004','George Washington', 'george@gmail,com', 'teacher', 'google', 'oiagq1', 'https://picsum.photos/200/200');
 
 INSERT INTO assignment (id, owner_id, due_date, title, description, code_locations, test_inputs) 
 VALUES 
@@ -44,8 +45,8 @@ VALUES
 INSERT INTO student_assignment (student_id, assignment_id)
 VALUES
 ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002'),
-('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004');
-('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003'),
+('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004'),
+('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003');
 
 INSERT INTO submission (id, submitter_id, assignment_id, submit_date, code_locations)
 VALUES ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002', now(), '{"http://example.com/1"}');
