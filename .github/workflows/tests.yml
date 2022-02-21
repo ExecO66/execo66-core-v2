@@ -45,7 +45,11 @@ jobs:
           echo PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo?sslmode=disable" >> ./config/.env.dev
           cat ./config/.env.dev
       - name: Install golang-migrate
-        run: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz
+        run: |
+          go get -u -d github.com/golang-migrate/migrate/cmd/migrate
+          cd $GOPATH/src/github.com/golang-migrate/migrate/cmd/migrate
+          git checkout v4.15.1
+          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
       - name: Test
         run: ls -a
       - name: Setup databse
