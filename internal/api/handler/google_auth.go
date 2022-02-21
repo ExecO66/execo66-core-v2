@@ -61,5 +61,5 @@ var GetGoogleAuthCb = gin.HandlerFunc(func(c *gin.Context) {
 	s.SetSessionUser(session.SessionUser(user))
 	s.Save()
 
-	c.Redirect(http.StatusPermanentRedirect, config.Config.ClientBaseUrl)
+	c.Redirect(http.StatusPermanentRedirect, config.Config.ClientBaseUrl+"/dash")
 })
