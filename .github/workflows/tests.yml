@@ -18,7 +18,7 @@ on:
 
 jobs:
   db-tests:
-    name: e2e-tests
+    name: db-tests
     runs-on: ubuntu-latest
     services:
       db:
@@ -45,7 +45,7 @@ jobs:
           echo PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo?sslmode=disable" >> ./config/.env.dev
           cat ./config/.env.dev
       - name: Install golang-migrate
-        run: curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$platform-amd64.tar.gz | tar xvz
+        run: curl -L https://github.com/golang-migrate/migrate/releases/download/4.15.1/migrate.linux-amd64.tar.gz | tar xvz
       - name: Setup databse
         run: make migrate
       - name: Seed database
