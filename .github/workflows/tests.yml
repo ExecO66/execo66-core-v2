@@ -17,8 +17,8 @@ on:
       - "specs/**"
 
 jobs:
-  db-tests:
-    name: db-tests
+  tests:
+    name: tests
     runs-on: ubuntu-latest
     services:
       db:
@@ -48,11 +48,9 @@ jobs:
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
           which migrate
-      - name: Test
-        run: ls -a
-      - name: Setup databse
+      - name: Run migrations
         run: make migrate
       - name: Seed database
         run: make seed-db
-      - name: Run query tests
-        run: make test-queries
+      - name: Run tests
+        run: make test
