@@ -4,7 +4,7 @@ import (
 	"core/internal/entity"
 	"core/internal/entity/enum"
 
-	"github.com/jackc/pgx/pgtype"
+	uuid "github.com/jackc/pgx/pgtype/ext/satori-uuid"
 )
 
 type GetUserByProviderIdModel struct {
@@ -31,14 +31,14 @@ func GetUserByProviderId(providerId string) (GetUserByProviderIdModel, error) {
     WHERE provider_id=$1;`
 
 	var dbModel struct {
-		Id pgtype.UUID
+		Id uuid.UUID
 		GetUserByProviderIdModel
 	}
 
 	err := entity.DbClient.Db.QueryRow(sql, providerId).Scan(&dbModel.Id, &dbModel.Username, &dbModel.Email, &dbModel.UserStatus, &dbModel.Provider, &dbModel.ProviderId, &dbModel.ProfilePicture)
 
 	model := GetUserByProviderIdModel{
-		Id:             string(dbModel.Id.Bytes[:]),
+		Id:             dbModel.Id.UUID.String(),
 		Username:       dbModel.Username,
 		Email:          dbModel.Email,
 		UserStatus:     dbModel.UserStatus,

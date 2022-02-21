@@ -7,6 +7,8 @@ import (
 	"core/internal/entity/queries"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMain(m *testing.M) {
@@ -25,26 +27,27 @@ func TestGetUserByProviderId(t *testing.T) {
 		t.Fatalf("query error: %v", err)
 	}
 
-	if user.Id == "00000000-0000-0000-0000-000000000001" {
-		t.Fatalf("query Id does not match default seed")
-	}
+	assert.Equal(t, "00000000-0000-0000-0000-000000000001", user.Id)
 }
 
 func TestInsertUser(t *testing.T) {
 	user, err := queries.InsertUser(queries.InsertUserEntity{
-		Username:   "test",
-		Email:      "test@gmail.com",
-		UserStatus: enum.Student,
-		Provider:   enum.Google,
-		ProviderId: "abc123",
+		Username:       "test",
+		Email:          "test@gmail.com",
+		UserStatus:     enum.Student,
+		Provider:       enum.Google,
+		ProviderId:     "abc123",
+		ProfilePicture: "https://picsum.photos/200/200",
 	})
 
 	if err != nil {
 		t.Fatalf("query error: %v", err)
 	}
 
-	if user.Email != "test@gmail.com" {
-		t.Fatalf("insert did not map correctly:, %v", user.Email)
-
-	}
+	assert.Equal(t, "test", user.Username)
+	assert.Equal(t, "test@gmail.com", user.Email)
+	assert.Equal(t, enum.Student, user.UserStatus)
+	assert.Equal(t, enum.Google, user.Provider)
+	assert.Equal(t, "abc123", user.ProviderId)
+	assert.Equal(t, "https://picsum.photos/200/200", user.ProfilePicture)
 }

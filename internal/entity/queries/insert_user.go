@@ -15,12 +15,13 @@ type InsertUserEntity struct {
 }
 
 type InsertUserModel struct {
-	Id         string
-	Username   string
-	Email      string
-	UserStatus enum.UserStatus
-	Provider   enum.LoginProvider
-	ProviderId string
+	Id             string
+	Username       string
+	Email          string
+	UserStatus     enum.UserStatus
+	Provider       enum.LoginProvider
+	ProviderId     string
+	ProfilePicture string
 }
 
 func InsertUser(user InsertUserEntity) (InsertUserModel, error) {
@@ -38,6 +39,6 @@ func InsertUser(user InsertUserEntity) (InsertUserModel, error) {
 	id := ""
 	err := entity.DbClient.Db.QueryRow(sql, user.Username, user.Email, user.UserStatus, user.Provider, user.ProviderId, user.ProfilePicture).Scan(&id)
 
-	return InsertUserModel{Id: id, Username: user.Username, Email: user.Email, UserStatus: user.UserStatus, Provider: user.Provider, ProviderId: user.ProviderId}, err
+	return InsertUserModel{Id: id, Username: user.Username, Email: user.Email, UserStatus: user.UserStatus, Provider: user.Provider, ProviderId: user.ProviderId, ProfilePicture: user.ProfilePicture}, err
 
 }
