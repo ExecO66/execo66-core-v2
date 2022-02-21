@@ -9,7 +9,7 @@ on:
       - "**/.air.toml"
       - "specs/**"
   pull_request:
-    branches: [master, github/workflows]
+    branches: [master]
     paths-ignore:
       - "**.md"
       - "**/.vscode"
