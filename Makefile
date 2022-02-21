@@ -34,3 +34,6 @@ run-dev:
 
 format:
 	@go fmt core/...
+
+test-queries:
+	@go test ./internal/entity/queries -v

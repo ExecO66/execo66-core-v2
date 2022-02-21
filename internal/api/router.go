@@ -1,8 +1,11 @@
 package api
 
 import (
+	"core/internal/api/handler"
 	"core/internal/config"
 	"core/internal/entity"
+	"core/internal/session"
+	"encoding/gob"
 	"log"
 
 	"github.com/gin-contrib/sessions"
@@ -13,6 +16,7 @@ import (
 var r = gin.New()
 
 func Run(port string) {
+
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
@@ -22,7 +26,12 @@ func Run(port string) {
 		log.Fatal("error creating postgres store")
 	}
 
+	gob.Register(&session.PendingAuthState{})
+	gob.Register(&session.SessionUser{})
 	r.Use(sessions.Sessions("sid", store))
 
+	r.GET("/auth/google", handler.GetGoogleAuth)
+	r.GET("/auth/google/callback", handler.GetGoogleAuthCb)
+	r.POST("/auth/user-status", handler.PostUserStatus)
 	r.Run()
 }
