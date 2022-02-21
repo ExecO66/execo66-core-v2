@@ -37,3 +37,6 @@ format:
 
 test-queries:
 	@go test ./internal/entity/queries -v
+
+test:
+	@go test core... -v
