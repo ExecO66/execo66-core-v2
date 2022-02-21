@@ -50,5 +50,5 @@ jobs:
         run: make migrate
       - name: Seed database
         run: make seed-db
-      - name: Run Query Tests
+      - name: Run query tests
         run: make test-queries

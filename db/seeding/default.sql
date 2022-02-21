@@ -3,10 +3,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO postgres;
 
 BEGIN;
 
-INSERT INTO "user" (id, username, email, user_status, provider, provider_id)
+INSERT INTO public."user" (id, username, email, user_status, provider, provider_id)
 VALUES ('00000000-0000-0000-0000-000000000001','Bob Schoolers', 'bob@gmail.com', 'student', 'google', '198a4d');
 
-INSERT INTO "user" (id, username, email, user_status, provider, provider_id)
+INSERT INTO public."user" (id, username, email, user_status, provider, provider_id)
 VALUES ('00000000-0000-0000-0000-000000000002','James Madison', 'jm@gmail,com', 'teacher', 'google', '19tjg3');
 
 INSERT INTO assignment (id, owner_id, due_date, title, description, code_locations, test_inputs) 
