@@ -19,6 +19,13 @@ migrate-reset:
 	make migrate-drop
 	make migrate
 
+migrate-reset-seed:
+	@echo "Resetting database..."
+	make migrate-drop
+	make migrate
+	@echo "Seeding database..."
+	make seed-db
+
 migrate-new:
 	@read -p "Input name of new migration: " NAME; \
 	migrate create -dir ./db/migrations -ext sql -tz UTC $$NAME
