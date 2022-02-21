@@ -8,12 +8,10 @@ import (
 	"core/internal/session"
 	"net/http"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 var GetGoogleAuth = gin.HandlerFunc(func(c *gin.Context) {
-	sessions.Default(c).Save()
 	c.Redirect(http.StatusPermanentRedirect, auth.GenGoogleAuthUrl())
 })
 
