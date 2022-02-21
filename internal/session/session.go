@@ -4,7 +4,7 @@ import (
 	"core/internal/entity/enum"
 	"errors"
 
-	"github.com/gin-contrib/sessions"
+	gsession "github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,13 +13,22 @@ var (
 	pendingAuthKey = "pending-auth"
 )
 
-type Session struct {
-	session sessions.Session
+type Session interface {
+	Save()
+	SetSessionUser(user SessionUser)
+	GetSessionUser() (*SessionUser, error)
+	SetPendingAuth(state PendingAuthState)
+	GetPendingAuth() (*PendingAuthState, error)
+	RemovePendingAuth()
 }
 
-func Default(c *gin.Context) *Session {
-	session := sessions.Default(c)
-	return &Session{session}
+type session struct {
+	session gsession.Session
+}
+
+var Default = func(c *gin.Context) Session {
+	s := gsession.Default(c)
+	return &session{s}
 }
 
 type SessionUser struct {
@@ -31,15 +40,15 @@ type SessionUser struct {
 	ProviderId string
 }
 
-func (s *Session) Save() {
+func (s *session) Save() {
 	s.session.Save()
 }
 
-func (s *Session) SetSessionUser(sessionUser SessionUser) {
+func (s *session) SetSessionUser(sessionUser SessionUser) {
 	s.session.Set(sessionUserKey, sessionUser)
 }
 
-func (s *Session) GetSessionUser() (*SessionUser, error) {
+func (s *session) GetSessionUser() (*SessionUser, error) {
 	state := s.session.Get(sessionUserKey)
 	if v, ok := state.(*SessionUser); ok {
 		return v, nil
@@ -54,11 +63,11 @@ type PendingAuthState struct {
 	ProviderId string
 }
 
-func (s *Session) SetPendingAuth(state PendingAuthState) {
+func (s *session) SetPendingAuth(state PendingAuthState) {
 	s.session.Set(pendingAuthKey, state)
 }
 
-func (s *Session) GetPendingAuth() (*PendingAuthState, error) {
+func (s *session) GetPendingAuth() (*PendingAuthState, error) {
 	state := s.session.Get(pendingAuthKey)
 	if v, ok := state.(*PendingAuthState); ok {
 		return v, nil
@@ -67,6 +76,6 @@ func (s *Session) GetPendingAuth() (*PendingAuthState, error) {
 	return &PendingAuthState{}, errors.New("unable to get pending auth state")
 }
 
-func (s *Session) RemovePendingAuth() {
+func (s *session) RemovePendingAuth() {
 	s.session.Delete(pendingAuthKey)
 }
