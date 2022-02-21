@@ -51,7 +51,7 @@ func GetGoogleAccessTokens(code string) (string, string, error) {
 
 	u := url.String()
 
-	resp, err := http.Post(u, "application/x-www-form-urlencoded", nil)
+	resp, err := PostGoogleTokenRequest(u)
 
 	if err != nil {
 		return "", "", err
@@ -71,6 +71,10 @@ func GetGoogleAccessTokens(code string) (string, string, error) {
 	json.Unmarshal(body, &respBody)
 
 	return respBody.AccessToken, respBody.RefreshToken, nil
+}
+
+var PostGoogleTokenRequest = func(url string) (*http.Response, error) {
+	return http.Post(url, "application/x-www-form-urlencoded", nil)
 }
 
 type GoogleUserProfile struct {
@@ -93,7 +97,7 @@ func GetGoogleUserProfile(accessToken string) (GoogleUserProfile, error) {
 
 	url.RawQuery = q.Encode()
 
-	resp, err := http.Get(url.String())
+	resp, err := GetGoogleUserRequest(url.String())
 
 	if err != nil {
 		return GoogleUserProfile{}, err
@@ -113,4 +117,8 @@ func GetGoogleUserProfile(accessToken string) (GoogleUserProfile, error) {
 	json.Unmarshal(body, &respBody)
 
 	return respBody, nil
+}
+
+var GetGoogleUserRequest = func(url string) (*http.Response, error) {
+	return http.Get(url)
 }
