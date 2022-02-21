@@ -3,6 +3,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO postgres;
 
 SET search_path TO public;
 
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+
 BEGIN;
 
 INSERT INTO "user" (id, username, email, user_status, provider, provider_id)
