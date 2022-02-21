@@ -46,10 +46,8 @@ jobs:
           cat ./config/.env.dev
       - name: Install golang-migrate
         run: |
-          go get -u -d github.com/golang-migrate/migrate/cmd/migrate
-          cd $GOPATH/src/github.com/golang-migrate/migrate/cmd/migrate
-          git checkout v4.15.1
-          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
+          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+          which migrate
       - name: Test
         run: ls -a
       - name: Setup databse
