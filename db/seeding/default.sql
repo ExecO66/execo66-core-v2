@@ -1,3 +1,6 @@
+GRANT USAGE ON SCHEMA public TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO postgres;
+
 BEGIN;
 
 INSERT INTO "user" (id, username, email, user_status, provider, provider_id)
