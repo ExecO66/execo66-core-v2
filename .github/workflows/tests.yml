@@ -42,7 +42,7 @@ jobs:
       - name: Create env file
         run: |
           touch ./config/.env.dev
-          echo PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo?sslmode=disable" >> ./config/.env.dev
+          echo PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo?sslmode=disable&search_path=public" >> ./config/.env.dev
           cat ./config/.env.dev
       - name: Install golang-migrate
         run: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz
