@@ -4,8 +4,8 @@ import (
 	"core/internal/auth"
 	"core/internal/config"
 	"core/internal/entity/enum"
+	"core/internal/entity/queries"
 	"core/internal/session"
-	"errors"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -41,8 +41,7 @@ var GetGoogleAuthCb = gin.HandlerFunc(func(c *gin.Context) {
 		return
 	}
 
-	// user, queryErr := queries.GetUserByProviderId(googleUser.ProviderId)
-	queryErr := errors.New("new error")
+	user, queryErr := queries.GetUserByProviderId(googleUser.ProviderId)
 
 	s := session.Default(c)
 
@@ -59,7 +58,8 @@ var GetGoogleAuthCb = gin.HandlerFunc(func(c *gin.Context) {
 		return
 	}
 
-	// session.SetSessionUser(s, session.SessionUser(user))
+	s.SetSessionUser(session.SessionUser(user))
+	s.Save()
 
 	c.Redirect(http.StatusPermanentRedirect, config.Config.ClientBaseUrl)
 })
