@@ -17,7 +17,7 @@ For the following installations, you must have [Go 1.17+](https://go.dev/doc/ins
 - **Make** for [MacOS](https://formulae.brew.sh/formula/make) or [Windows](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) developers
 - [golang-migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate) - migration CLI tool
 - [Postgres](https://www.postgresql.org/download) - database
-- [Air](https://github.com/cosmtrek/air) - Live reload
+- [Air](https://github.com/cosmtrek/air) - Live reload (not required, nice to have)
 
 ### Database setup
 
