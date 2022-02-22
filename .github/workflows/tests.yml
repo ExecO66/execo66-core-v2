@@ -17,15 +17,15 @@ on:
       - "specs/**"
 
 jobs:
-  tests:
-    name: tests
+  query-tests:
+    name: query-tests
     runs-on: ubuntu-latest
     services:
       db:
         image: postgres:14.1-alpine
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: execo
+          POSTGRES_DB: execo_testing
         ports:
           - 5432:5432
         options: >-
@@ -42,15 +42,15 @@ jobs:
       - name: Create env file
         run: |
           touch ./config/.env.dev
-          echo PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo?sslmode=disable" >> ./config/.env.dev
+          echo TEST_PSQL_CONN_STRING="postgres://postgres:postgres@localhost:5432/execo_testing?sslmode=disable" >> ./config/.env.dev
           cat ./config/.env.dev
       - name: Install golang-migrate
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
           which migrate
       - name: Run migrations
-        run: make migrate
+        run: make migrate-test-db
       - name: Seed database
-        run: make seed-db
+        run: make seed-querytestdata
       - name: Run tests
-        run: make test
+        run: make test-queries
