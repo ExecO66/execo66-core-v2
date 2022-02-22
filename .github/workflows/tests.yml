@@ -38,6 +38,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.17.x
+      - name: Install Just
+        run: |
+          wget https://github.com/casey/just/releases/download/1.0.0/just-1.0.0-x86_64-unknown-linux-musl.tar.gz
+          tar -xf just-1.0.0-x86_64-unknown-linux-musl.tar.gz
+          chmod +x just
       - uses: actions/checkout@v2
       - name: Create env file
         run: |
@@ -49,8 +54,8 @@ jobs:
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
           which migrate
       - name: Run migrations
-        run: make migrate-test-db
+        run: ./just migrate-test-db
       - name: Seed database
-        run: make seed-querytestdata
+        run: ./just seed-querytestdata
       - name: Run tests
-        run: make test-queries
+        run: ./just test-queries
