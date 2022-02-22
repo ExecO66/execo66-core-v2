@@ -13,7 +13,7 @@ import (
 
 func TestMain(m *testing.M) {
 	config.Config.Load("../../../config/.env.dev")
-	entity.NewDbClient().Connect(config.Config.DbConnString)
+	entity.NewDbClient().Connect(config.Config.TestDbConnString)
 
 	exit := m.Run()
 

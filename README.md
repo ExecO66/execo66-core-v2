@@ -26,6 +26,7 @@ Run the following commands
 ```shell
 psql -U postgres
 > CREATE DATABASE execo;
+> CREATE DATABASE execo_testing; # required when running query tests
 > \c execo
 ```
 
@@ -34,17 +35,39 @@ psql -U postgres
 Create ./config/.env.dev file
 Follow the .env.example for setup:
 
+<sub><sup>\*\*only TEST_PSQL_CONN_STRING is required when working with query tests</sup></sub>
+
 ```none
 PSQL_CONN_STRING=postgres://postgres:postgres@localhost:5432/execo?sslmode=disable
+TEST_PSQL_CONN_STRING=postgres://postgres:postgres@localhost:5432/execo_testing?sslmode=disable
 COOKIE_SECRET=secret
+PORT=8080
+GOOGLE_AUTH_CLIENT_ID=123abc
+GOOGLE_AUTH_CLIENT_SECRET=456def
+GOOGLE_AUTH_REDIRECT_URI=http://localhost:8080/auth/google/callback
+CLIENT_BASE_URL=http://localhost:3000
 ```
 
-Run in development environment:
+#### Run API in development environment
 
 ```shell
 make migrate
-make seed-db
+make seed-apidata
 make run-dev
+```
+
+#### Run query tests
+
+```shell
+make test-queries-thorough
+```
+
+or if you want more control:
+
+```shell
+make migrate-test-db
+make seed-querytestdata
+make test-queries
 ```
 
 ## Project Layout

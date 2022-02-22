@@ -11,17 +11,18 @@ var IsProd = os.Getenv("APP_ENV") == "production"
 var Config = config{}
 
 type config struct {
-	DbConnString  string
 	Port          string
 	CookieSecret  string
 	ClientBaseUrl string
 	GoogleAuth
+	DbConfig
 }
 
 func (ev *config) Load(path string) {
 	godotenv.Load(path)
 
 	ev.DbConnString = os.Getenv("PSQL_CONN_STRING")
+	ev.TestDbConnString = os.Getenv("TEST_PSQL_CONN_STRING")
 	ev.Port = os.Getenv("PORT")
 	ev.CookieSecret = os.Getenv("COOKIE_SECRET")
 	ev.GoogleAuthClientId = os.Getenv("GOOGLE_AUTH_CLIENT_ID")
