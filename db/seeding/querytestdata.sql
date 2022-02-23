@@ -59,6 +59,10 @@ INSERT INTO submission_exec (submission_id, output, test_input)
 VALUES
 ('00000000-0000-0000-0000-000000000001', '2sub_exec_output1', '2input1'),
 ('00000000-0000-0000-0000-000000000001', '2sub_exec_output2', '2input2'),
-('00000000-0000-0000-0000-000000000001', '2sub_exec_output3', '2input3');
+('00000000-0000-0000-0000-000000000001', '2sub_exec_output3', '2input3'),
+
+('00000000-0000-0000-0000-000000000002', '3sub_exec_output1', '3input1'),
+('00000000-0000-0000-0000-000000000002', '3sub_exec_output2', '3input2'),
+('00000000-0000-0000-0000-000000000002', '3sub_exec_output3', '3input3');
 
 COMMIT;
