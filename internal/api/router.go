@@ -44,6 +44,7 @@ func Run(port string) {
 	r.Use(middleware.CheckAuth())
 	{
 		r.GET("/student-assignment", middleware.CheckStatus(enum.Student), handler.GetAllStudentAssignment)
+		r.GET("/student-assignment/:id", middleware.CheckStatus(enum.Student), handler.GetStudentAssignmentsById)
 	}
 
 	r.Run()

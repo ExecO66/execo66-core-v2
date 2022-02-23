@@ -57,11 +57,69 @@ var GetAllStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 })
 
 var GetStudentAssignmentsById = gin.HandlerFunc(func(c *gin.Context) {
+	type Submission struct {
+		Id             string `json:"id"`
+		SubmitDate     string `json:"submitDate"`
+		TestRuns       int    `json:"testRuns"`
+		CorrectOutputs int    `json:"correctOuputs"`
+	}
+
+	type Assignment struct {
+		Id          string       `json:"id"`
+		Title       string       `json:"title"`
+		Description string       `json:"description"`
+		DueDate     string       `json:"dueDate"`
+		Submissions []Submission `json:"submissions"`
+	}
+
 	id := c.Param("id")
 
 	if id == "" {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+
+	as, err := queries.GetStudentAssignmentsByAssignmentId(id)
+
+	if err != nil {
+		c.Status(http.StatusNotFound)
+		return
+	}
+
+	jsonSubmissions := []Submission{}
+
+AssignmentLoop:
+	for _, a := range as {
+
+		if a.SubmissionId == nil {
+			continue
+		}
+
+		for _, s := range jsonSubmissions {
+			if s.Id == *a.SubmissionId { // already added submission, skip rest of loop
+				continue AssignmentLoop
+			}
+		}
+
+		jsonSubmissions = append(
+			jsonSubmissions,
+			Submission{
+				Id:             *a.SubmissionId,
+				SubmitDate:     a.SubmitDate,
+				TestRuns:       a.SubmissionTestRuns,
+				CorrectOutputs: a.SubmissionCorrectOutputs,
+			})
+
+	}
+
+	jsonAssignment := Assignment{
+		Id:          as[0].AssignmentId,
+		Title:       as[0].Title,
+		Description: as[0].Description,
+		DueDate:     as[0].DueDate,
+		Submissions: jsonSubmissions,
+	}
+
+	c.JSON(http.StatusOK, jsonAssignment)
 
 })

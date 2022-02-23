@@ -71,9 +71,29 @@
         "restricted-by": "user-student",
         "summary": "Get specific assignment assigned to user",
         "response": {
-          "200": { "body": {} },
-          "404": { "body": { "reason": "Invalid assignment" } },
-          "403": { "body": { "reason": "Assignment not assigned to user" } }
+          "200": {
+            "body": {
+              "id": "00000000-0000-0000-0000-000000000002",
+              "title": "CS A Lab 2",
+              "description": "Some description 2",
+              "dueDate": "2022-02-22T09:21:17.782779-06:00",
+              "submissions": [
+                {
+                  "id": "00000000-0000-0000-0000-000000000001",
+                  "submitDate": "2022-02-21T09:21:17.782779-06:00",
+                  "testRuns": 3,
+                  "correctOuputs": 3
+                },
+                {
+                  "id": "00000000-0000-0000-0000-000000000002",
+                  "submitDate": "2022-02-20T09:21:17.782779-06:00",
+                  "testRuns": 3,
+                  "correctOuputs": 1
+                }
+              ]
+            }
+          },
+          "404": {}
         }
       }
     },
