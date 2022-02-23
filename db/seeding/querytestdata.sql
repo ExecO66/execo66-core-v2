@@ -19,10 +19,10 @@ VALUES
 
 INSERT INTO assignment (id, owner_id, due_date, title, description, code_locations, test_inputs) 
 VALUES 
-('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', now(), 'CS A Lab 1', 'Some description 1', '{"https://example.com/1"}', 'str::1input1;1input2;1input3;'),
-('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003', now(), 'CS A Lab 2', 'Some description 2', '{"https://example.com/2"}', 'str::2input1;2input2;3input3;' ),
-('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000003', now(), 'CS A Lab 3', 'Some description 3', '{"https://example.com/3"}', 'str::3input1;3input2;3input3;' ),
-('00000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000004', now(), 'CS A Lab 4', 'Some description 4', '{"https://example.com/4"}', 'str::4input1;4input2;4input3;' );
+('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', now() + INTERVAL '7 DAY', 'CS A Lab 1', 'Some description 1', '{"https://example.com/1"}', 'str::1input1;1input2;1input3;'),
+('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003', now() - INTERVAL '1 DAY', 'CS A Lab 2', 'Some description 2', '{"https://example.com/2"}', 'str::2input1;2input2;3input3;' ),
+('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000003', now() + INTERVAL '14 DAY', 'CS A Lab 3', 'Some description 3', '{"https://example.com/3"}', 'str::3input1;3input2;3input3;' ),
+('00000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000004', now() - INTERVAL '2 DAY', 'CS A Lab 4', 'Some description 4', '{"https://example.com/4"}', 'str::4input1;4input2;4input3;' );
 
 INSERT INTO assignment_exec (id, assignment_id, output, test_input)
 VALUES
@@ -45,11 +45,15 @@ VALUES
 INSERT INTO student_assignment (student_id, assignment_id)
 VALUES
 ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002'),
+('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003'),
 ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004'),
 ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003');
 
 INSERT INTO submission (id, submitter_id, assignment_id, submit_date, code_locations)
-VALUES ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002', now(), '{"http://example.com/1"}');
+VALUES 
+('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002', now() - INTERVAL '2 DAY', '{"http://example.com/1"}');
+('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', now(), '{"http://example.com/1"}');
+
 
 INSERT INTO submission_exec (submission_id, output, test_input)
 VALUES
