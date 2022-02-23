@@ -67,7 +67,7 @@ func TestGetUserById(t *testing.T) {
 }
 
 func TestGetStudentAssignmentsById(t *testing.T) {
-	assignments, err := queries.GetStudentAssignmentsById("00000000-0000-0000-0000-000000000001")
+	assignments, err := queries.GetStudentAssignmentsByUserId("00000000-0000-0000-0000-000000000001")
 
 	assert.Nil(t, err)
 	assert.Len(t, assignments, 3)

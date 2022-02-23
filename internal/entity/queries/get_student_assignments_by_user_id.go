@@ -16,7 +16,7 @@ type getUserAssignmentsByIdModel struct {
 	RecentSubmissionId    *string
 }
 
-func GetStudentAssignmentsById(userId string) ([]getUserAssignmentsByIdModel, error) {
+func GetStudentAssignmentsByUserId(userId string) ([]getUserAssignmentsByIdModel, error) {
 	sql := `
     SELECT 
         a.id AS assignment_id,

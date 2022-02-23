@@ -30,7 +30,7 @@ var GetAllStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 
 	user := c.MustGet("user").(*session.SessionUser)
 
-	assignments, err := queries.GetStudentAssignmentsById(user.Id)
+	assignments, err := queries.GetStudentAssignmentsByUserId(user.Id)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to retrieve user assignments"})
@@ -54,4 +54,14 @@ var GetAllStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string][]StudentAssignment{"assignments": jsonAssignments})
+})
+
+var GetStudentAssignmentsById = gin.HandlerFunc(func(c *gin.Context) {
+	id := c.Param("id")
+
+	if id == "" {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
 })
