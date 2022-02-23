@@ -66,7 +66,7 @@ func TestGetUserById(t *testing.T) {
 	assert.Equal(t, "198a4d", user.ProviderId)
 }
 
-func TestGetStudentAssignmentsById(t *testing.T) {
+func TestGetStudentAssignmentsByUserId(t *testing.T) {
 	assignments, err := queries.GetStudentAssignmentsByUserId("00000000-0000-0000-0000-000000000001")
 
 	assert.Nil(t, err)
@@ -75,4 +75,19 @@ func TestGetStudentAssignmentsById(t *testing.T) {
 	assert.Equal(t, "CS A Lab 3", assignments[1].Title)
 	assert.Equal(t, "CS A Lab 4", assignments[2].Title)
 	assert.Nil(t, assignments[2].RecentSubmissionId)
+}
+
+func TestGetStudentAssignmentsByAssignmentId(t *testing.T) {
+	as, err := queries.GetStudentAssignmentsByAssignmentId("00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+	assert.Len(t, as, 1)
+	assert.Nil(t, as[0].SubmissionId)
+
+	as1, err := queries.GetStudentAssignmentsByAssignmentId("00000000-0000-0000-0000-000000000002")
+
+	assert.Nil(t, err)
+	assert.Len(t, as1, 1)
+	assert.Equal(t, 3, as1[0].SubmissionTestRuns)
+	assert.Equal(t, 2, as1[0].SubmissionCorrectOutputs)
 }
