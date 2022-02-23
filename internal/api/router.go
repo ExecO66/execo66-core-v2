@@ -5,7 +5,6 @@ import (
 	"core/internal/api/middleware"
 	"core/internal/config"
 	"core/internal/entity"
-	"core/internal/entity/enum"
 	"core/internal/session"
 	"encoding/gob"
 	"log"
@@ -36,17 +35,12 @@ func Run(port string) {
 	r.GET("/auth/google/callback", handler.GetGoogleAuthCb)
 	r.POST("/auth/user-status", handler.PostUserStatus)
 
+	// dev only
+	if !config.IsProd {
+		r.GET("/auth/dev/:id", handler.GetDevAuth)
+	}
+
 	r.Use(middleware.CheckAuth())
-	{
-
-	}
-
-	r.Use(middleware.CheckStatus(enum.Student))
-	{
-
-	}
-
-	r.Use(middleware.CheckStatus(enum.Teacher))
 	{
 
 	}

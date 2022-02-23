@@ -51,3 +51,17 @@ func TestInsertUser(t *testing.T) {
 	assert.Equal(t, "abc123", user.ProviderId)
 	assert.Equal(t, "https://picsum.photos/200/200", user.ProfilePicture)
 }
+
+func TestGetUserById(t *testing.T) {
+	user, err := queries.GetUserById("00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+
+	assert.Equal(t, "00000000-0000-0000-0000-000000000001", user.Id)
+	assert.Equal(t, "Bob Schoolers", user.Username)
+	assert.Equal(t, "bob@gmail.com", user.Email)
+	assert.Equal(t, "https://picsum.photos/200/200", user.ProfilePicture)
+	assert.Equal(t, enum.Google, user.Provider)
+	assert.Equal(t, enum.Student, user.UserStatus)
+	assert.Equal(t, "198a4d", user.ProviderId)
+}
