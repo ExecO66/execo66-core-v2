@@ -65,3 +65,14 @@ func TestGetUserById(t *testing.T) {
 	assert.Equal(t, enum.Student, user.UserStatus)
 	assert.Equal(t, "198a4d", user.ProviderId)
 }
+
+func TestGetStudentAssignmentsById(t *testing.T) {
+	assignments, err := queries.GetStudentAssignmentsById("00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+	assert.Len(t, assignments, 3)
+	assert.Equal(t, "CS A Lab 2", assignments[0].Title)
+	assert.Equal(t, "CS A Lab 3", assignments[1].Title)
+	assert.Equal(t, "CS A Lab 4", assignments[2].Title)
+	assert.Nil(t, assignments[2].RecentSubmissionId)
+}
