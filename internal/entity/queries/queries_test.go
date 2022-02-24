@@ -91,3 +91,17 @@ func TestGetStudentAssignmentsByAssignmentId(t *testing.T) {
 	assert.Equal(t, 3, as1[0].SubmissionTestRuns)
 	assert.Equal(t, 2, as1[0].SubmissionCorrectOutputs)
 }
+
+func TestDoesStudentAssignmentExist(t *testing.T) {
+	exists1 := queries.DoesStudentAssignmentExist("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000002")
+	exists2 := queries.DoesStudentAssignmentExist("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000001")
+
+	assert.True(t, exists1)
+	assert.False(t, exists2)
+}
+
+func TestInsertStudentAssignment(t *testing.T) {
+	err := queries.InsertStudentAssignment("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+}
