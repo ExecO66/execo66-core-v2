@@ -105,3 +105,8 @@ func TestInsertStudentAssignment(t *testing.T) {
 
 	assert.Nil(t, err)
 }
+
+func TestDoesAssignmentExist(t *testing.T) {
+	exists := queries.DoesAssignmentExist("00000000-0000-0000-0000-000000000002")
+	assert.True(t, exists)
+}

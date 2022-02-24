@@ -61,8 +61,13 @@
               { "Location": "https://example.com/assigned-assignments/$id" }
             ]
           },
-          "303": { "body": { "reason": "Assignment already assigned" } },
-          "404": { "body": { "reason": "Invalid assignment" } }
+          "409": {
+            "headers": [
+              { "Location": "https://example.com/assigned-assignments/$id" }
+            ],
+            "body": { "reason": "Assignment already assigned" }
+          },
+          "404": {}
         }
       }
     },

@@ -138,6 +138,13 @@ var PostStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 
 	user := c.MustGet("user").(*session.SessionUser)
 
+	assignmentExists := queries.DoesAssignmentExist(body.AssignmentId)
+
+	if !assignmentExists {
+		c.Status(http.StatusNotFound)
+		return
+	}
+
 	exists := queries.DoesStudentAssignmentExist(user.Id, body.AssignmentId)
 
 	if exists {
@@ -152,5 +159,6 @@ var PostStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"test": body.AssignmentId})
+	c.Header("Location", "/student-assignment/"+body.AssignmentId)
+	c.Status(http.StatusCreated)
 })
