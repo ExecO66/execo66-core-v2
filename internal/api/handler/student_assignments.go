@@ -123,3 +123,34 @@ AssignmentLoop:
 	c.JSON(http.StatusOK, jsonAssignment)
 
 })
+
+var PostStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
+
+	type Body struct {
+		AssignmentId string `json:"assignmentId" binding:"required"`
+	}
+
+	var body Body
+	if err := c.BindJSON(&body); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	user := c.MustGet("user").(*session.SessionUser)
+
+	exists := queries.DoesStudentAssignmentExist(user.Id, body.AssignmentId)
+
+	if exists {
+		c.Header("Location", "/student-assignment/"+body.AssignmentId)
+		c.Status(http.StatusConflict)
+		return
+	} else {
+		err := queries.InsertStudentAssignment(user.Id, body.AssignmentId)
+		if err != nil {
+			c.Status(http.StatusInternalServerError)
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"test": body.AssignmentId})
+})
