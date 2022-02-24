@@ -65,3 +65,48 @@ func TestGetUserById(t *testing.T) {
 	assert.Equal(t, enum.Student, user.UserStatus)
 	assert.Equal(t, "198a4d", user.ProviderId)
 }
+
+func TestGetStudentAssignmentsByUserId(t *testing.T) {
+	assignments, err := queries.GetStudentAssignmentsByUserId("00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+	assert.Len(t, assignments, 3)
+	assert.Equal(t, "CS A Lab 2", assignments[0].Title)
+	assert.Equal(t, "CS A Lab 3", assignments[1].Title)
+	assert.Equal(t, "CS A Lab 4", assignments[2].Title)
+	assert.Nil(t, assignments[2].RecentSubmissionId)
+}
+
+func TestGetStudentAssignmentsByAssignmentId(t *testing.T) {
+	as, err := queries.GetStudentAssignmentsByAssignmentId("00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+	assert.Len(t, as, 1)
+	assert.Nil(t, as[0].SubmissionId)
+
+	as1, err := queries.GetStudentAssignmentsByAssignmentId("00000000-0000-0000-0000-000000000002")
+
+	assert.Nil(t, err)
+	assert.Len(t, as1, 1)
+	assert.Equal(t, 3, as1[0].SubmissionTestRuns)
+	assert.Equal(t, 2, as1[0].SubmissionCorrectOutputs)
+}
+
+func TestDoesStudentAssignmentExist(t *testing.T) {
+	exists1 := queries.DoesStudentAssignmentExist("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000002")
+	exists2 := queries.DoesStudentAssignmentExist("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000001")
+
+	assert.True(t, exists1)
+	assert.False(t, exists2)
+}
+
+func TestInsertStudentAssignment(t *testing.T) {
+	err := queries.InsertStudentAssignment("00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000001")
+
+	assert.Nil(t, err)
+}
+
+func TestDoesAssignmentExist(t *testing.T) {
+	exists := queries.DoesAssignmentExist("00000000-0000-0000-0000-000000000002")
+	assert.True(t, exists)
+}

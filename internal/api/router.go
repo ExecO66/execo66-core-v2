@@ -5,6 +5,7 @@ import (
 	"core/internal/api/middleware"
 	"core/internal/config"
 	"core/internal/entity"
+	"core/internal/entity/enum"
 	"core/internal/session"
 	"encoding/gob"
 	"log"
@@ -42,7 +43,9 @@ func Run(port string) {
 
 	r.Use(middleware.CheckAuth())
 	{
-
+		r.GET("/student-assignment", middleware.CheckStatus(enum.Student), handler.GetAllStudentAssignment)
+		r.GET("/student-assignment/:id", middleware.CheckStatus(enum.Student), handler.GetStudentAssignmentsById)
+		r.POST("/student-assignment", middleware.CheckStatus(enum.Student), handler.PostStudentAssignment)
 	}
 
 	r.Run()

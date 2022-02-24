@@ -1,0 +1,163 @@
+{
+  "info": {
+    "name": "execo66-core",
+    "version": "1.0.0",
+    "authentication": "session"
+  },
+  "paths": {
+    "/auth/google": {
+      "get": {
+        "restricted-by": "none",
+        "summary": "Redirect to https://accounts.google.com/o/oauth2/v2/auth"
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "query_params": ["code", "error"],
+        "summary": "Request made by Google server"
+      }
+    },
+    "/student-assignments": {
+      "get": {
+        "restricted-by": "user-student",
+        "summary": "Get all user assignments",
+        "response": {
+          "200": {
+            "body": {
+              "assignments": [
+                {
+                  "assignmentId": "00000000-0000-0000-0000-000000000002",
+                  "title": "CS A Lab 2",
+                  "description": "Some description 2",
+                  "dueDate": "2022-02-21T21:22:23.694628-06:00",
+                  "recentSubmissionId": "00000000-0000-0000-0000-000000000001",
+                  "teacherInfo": {
+                    "username": "Teacher1 Teacher",
+                    "profilePicture": "https://picsum.photos/200/200"
+                  }
+                },
+                {
+                  "assignmentId": "00000000-0000-0000-0000-000000000004",
+                  "title": "CS A Lab 4",
+                  "description": "Some description 4",
+                  "dueDate": "2022-02-20T21:22:23.694628-06:00",
+                  "teacherInfo": {
+                    "username": "Teacher2 Teacher",
+                    "profilePicture": "https://picsum.photos/200/200"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "post": {
+        "restricted-by": "user-student",
+        "summary": "Add user to assignment",
+        "request-example": { "body": { "assignmentId": "abc-123" } },
+        "response": {
+          "201": {
+            "headers": [
+              { "Location": "https://example.com/assigned-assignments/$id" }
+            ]
+          },
+          "409": {
+            "headers": [
+              { "Location": "https://example.com/assigned-assignments/$id" }
+            ],
+            "body": { "reason": "Assignment already assigned" }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/student-assignments/$assignmentId": {
+      "get": {
+        "restricted-by": "user-student",
+        "summary": "Get specific assignment assigned to user",
+        "response": {
+          "200": {
+            "body": {
+              "id": "00000000-0000-0000-0000-000000000002",
+              "title": "CS A Lab 2",
+              "description": "Some description 2",
+              "dueDate": "2022-02-22T09:21:17.782779-06:00",
+              "submissions": [
+                {
+                  "id": "00000000-0000-0000-0000-000000000001",
+                  "submitDate": "2022-02-21T09:21:17.782779-06:00",
+                  "testRuns": 3,
+                  "correctOuputs": 3
+                },
+                {
+                  "id": "00000000-0000-0000-0000-000000000002",
+                  "submitDate": "2022-02-20T09:21:17.782779-06:00",
+                  "testRuns": 3,
+                  "correctOuputs": 1
+                }
+              ]
+            }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/teacher-assignments": {
+      "get": {
+        "restricted-by": "user-teacher",
+        "summary": "Get all assignemts owned by the teacher",
+        "response": {
+          "200": { "body": { "ownedAssignments": [] } }
+        }
+      },
+      "post": {
+        "restricted-by": "user-teacher",
+        "summary": "Create assignment",
+        "response": {
+          "201": {
+            "headers": [
+              { "Location": "https://example.com/owned-assignments/$id" }
+            ]
+          }
+        }
+      }
+    },
+    "/teacher-assignments/$aId": {
+      "get": {
+        "restricted-by": "user-teacher",
+        "summary": "Get specific user owned assignment",
+        "response": {
+          "200": { "body": {} },
+          "404": { "body": { "reason": "Invalid assignment" } }
+        }
+      }
+    },
+    "/submissions": {
+      "post": {
+        "restricted-by": "user-student",
+        "summary": "Create submission with $sId for assignment $aId",
+        "request-example": { "body": { "assignmentId": "$aId" } },
+        "response": {
+          "201": {
+            "headers": [
+              {
+                "Location": "https://example.com/user-assignments/$aId/submissions/$sId"
+              }
+            ]
+          },
+          "404": { "body": { "reason": "Invalid assignment" } }
+        }
+      }
+    },
+    "/teacher-assigments/$aId/submissions": {
+      "get": {
+        "restricted-by": "user-teacher",
+        "summary": "Get all submissions for assignment $aId",
+        "response": {
+          "200": { "body": { "submissions": [] } },
+          "404": { "body": { "reason": "Invalid assignment" } }
+        }
+      }
+    }
+  }
+}
