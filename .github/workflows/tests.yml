@@ -48,6 +48,8 @@ jobs:
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
           which migrate
+      - name: Install Task
+        uses: arduino/setup-task@v1
       - name: Run migrations
         run: task migrate-t
       - name: Seed database
