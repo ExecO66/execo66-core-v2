@@ -14,7 +14,7 @@ For the following installations, you must have [Go 1.17+](https://go.dev/doc/ins
 
 ### Required Installations:
 
-- **Make** for [MacOS](https://formulae.brew.sh/formula/make) or [Windows](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) developers
+- [Task](https://taskfile.dev/#/installation?id=installation) - Task runner and build tool
 - [golang-migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate) - migration CLI tool
 - [Postgres](https://www.postgresql.org/download) - database
 - [Air](https://github.com/cosmtrek/air) - Live reload (not required, nice to have)
@@ -35,7 +35,7 @@ psql -U postgres
 Create ./config/.env.dev file
 Follow the .env.example for setup:
 
-<sub><sup>\*\*only TEST_PSQL_CONN_STRING is required when working with query tests</sup></sub>
+<sup>\*\*only TEST_PSQL_CONN_STRING is required when working with query tests</sup>
 
 ```none
 PSQL_CONN_STRING=postgres://postgres:postgres@localhost:5432/execo?sslmode=disable
@@ -51,23 +51,23 @@ CLIENT_BASE_URL=http://localhost:3000
 #### Run API in development environment
 
 ```shell
-make migrate
-make seed-apidata
-make run-dev
+task migrate
+task seed-db
+task run-dev
 ```
 
 #### Run query tests
 
 ```shell
-make test-queries-thorough
+task test-queries-all
 ```
 
 or if you want more control:
 
 ```shell
-make migrate-test-db
-make seed-querytestdata
-make test-queries
+task migrate-t
+task seed-t-db
+task test-queries
 ```
 
 ## Project Layout
