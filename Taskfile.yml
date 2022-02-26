@@ -1,0 +1,90 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  MIGRATE: migrate -path ./db/migrations -database $PSQL_CONN_STRING
+  MIGRATE_TEST: migrate -path ./db/migrations -database $TEST_PSQL_CONN_STRING
+
+# left to right order of precedence
+dotenv: ["./config/.env.prod", "./config/.env.dev"]
+
+tasks:
+  default:
+    cmds:
+      - echo "No command provided. List of valid commands:"
+      - task -l
+    silent: true
+
+  format:
+    desc: Format Go code
+    cmds:
+      - go fmt core/...
+
+  test:
+    desc: Run all tests
+    cmds:
+      - go test core/... -v
+
+  run-dev:
+    desc: Run server in development mode
+    cmds:
+      - air -c ./config/.air.toml
+
+  seed-db:
+    desc: Seed API db
+    cmds:
+      - psql -f ./db/seeding/apidevdata.sql $PSQL_CONN_STRING
+
+  migrate:
+    desc: Run migrations for API db
+    cmds:
+      - "{{.MIGRATE}} up"
+
+  migrate-drop:
+    desc: Drop db schema
+    cmds:
+      - "{{.MIGRATE}} drop"
+
+  migrate-reset:
+    desc: Reset db, drop and up combined
+    cmds:
+      - "{{.MIGRATE}} drop"
+      - "{{.MIGRATE}} up"
+
+  migrate-new:
+    desc: Creates new migration files
+    cmds:
+      - |
+        echo "Input name of new migration:"
+        read NAME;
+        migrate create -dir ./db/migrations -ext sql -tz UTC ${NAME}
+
+  migrate-t:
+    desc: Run migrations for test db
+    cmds:
+      - "{{.MIGRATE_TEST}} up"
+
+  migrate-t-drop:
+    desc: Drop db schema for test db
+    cmds:
+      - "{{.MIGRATE_TEST}} drop"
+
+  seed-t-db:
+    desc: Seed test db
+    cmds:
+      - echo $TEST_PSQL_CONN_STRING
+      - psql -f ./db/seeding/querytestdata.sql $TEST_PSQL_CONN_STRING
+
+  test-queries:
+    desc: Run query tests
+    cmds:
+      - go test ./internal/entity/queries -v
+
+  test-queries-all:
+    desc: Reset and run query tests
+    cmds:
+      - task migrate-t-drop
+      - task migrate-t
+      - task seed-t-db
+      - task test-queries
