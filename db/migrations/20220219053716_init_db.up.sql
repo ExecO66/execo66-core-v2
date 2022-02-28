@@ -2,10 +2,11 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TYPE IF EXISTS user_status_enum;
 DROP TYPE IF EXISTS login_provider_enum;
+DROP TYPE IF EXISTS exec_lang_enum;
 
 CREATE TYPE user_status_enum as ENUM ('student', 'teacher');
 CREATE TYPE login_provider_enum as ENUM ('google');
-CREATE TYPE exec_lang as ENUM ('java');
+CREATE TYPE exec_lang_enum as ENUM ('java');
 
 CREATE TABLE IF NOT EXISTS "user"(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS assignment(
     description text NOT NULL,
     code_locations text[] NOT NULl,
     test_inputs text NOT NULL,
-    lang exec_lang NOT NULL
+    lang exec_lang_enum NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS assignment_exec(

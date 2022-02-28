@@ -7,6 +7,6 @@ DROP TABLE IF EXISTS "user";
 
 DROP TYPE IF EXISTS user_status_enum;
 DROP TYPE IF EXISTS login_provider_enum;
-DROP TYPE IF EXISTS exec_lang;
+DROP TYPE IF EXISTS exec_lang_enum;
 
 DROP EXTENSION IF EXISTS "uuid-ossp";

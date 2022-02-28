@@ -17,7 +17,7 @@ VALUES
 ('00000000-0000-0000-0000-000000000003','Teacher1 Teacher', 'teacher1@gmail,com', 'teacher', 'google', 'g119j1', 'https://picsum.photos/200/200'),
 ('00000000-0000-0000-0000-000000000004','Teacher2 Teacher', 'teacher2@gmail,com', 'teacher', 'google', 'oiagq1', 'https://picsum.photos/200/200');
 
-INSERT INTO assignment (id, owner_id, due_date, title, description, code_locations, test_inputs) 
+INSERT INTO assignment (id, owner_id, due_date, title, description, code_locations, test_inputs, lang) 
 VALUES 
 ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', now() + INTERVAL '7 DAY', 'CS A Lab 1', 'Some description 1', '{"https://example.com/1"}', 'str::1input1;1input2;1input3;', 'java'),
 ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000003', now() - INTERVAL '1 DAY', 'CS A Lab 2', 'Some description 2', '{"https://example.com/2"}', 'str::2input1;2input2;3input3;', 'java'),
