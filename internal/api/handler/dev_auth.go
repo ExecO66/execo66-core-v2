@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"core/internal/config"
 	"core/internal/entity/queries"
 	"core/internal/session"
 	"net/http"
@@ -30,5 +31,5 @@ var GetDevAuth = gin.HandlerFunc(func(c *gin.Context) {
 	s := session.Default(c)
 	s.SetSessionUser(session.SessionUser(user))
 	s.Save()
-	c.Status(http.StatusOK)
+	c.Redirect(http.StatusMovedPermanently, config.Config.ClientBaseUrl+"/assignments")
 })
