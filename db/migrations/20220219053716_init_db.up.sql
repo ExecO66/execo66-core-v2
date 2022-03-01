@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS assignment(
     description text NOT NULL,
     code_locations text[] NOT NULl,
     test_inputs text NOT NULL,
-    lang exec_lang_enum NOT NULL
+    lang exec_lang_enum NOT NULL,
+    available_until timestamptz NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS assignment_exec(

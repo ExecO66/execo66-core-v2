@@ -26,6 +26,7 @@ var GetAllStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 		DueDate            string      `json:"dueDate"`
 		RecentSubmissionId *string     `json:"recentSubmissionId,omitempty"`
 		TeacherInfo        TeacherInfo `json:"teacherInfo"`
+		AvailableUntil     string      `json:"availableUntil"`
 	}
 
 	user := c.MustGet("user").(*session.SessionUser)
@@ -50,6 +51,7 @@ var GetAllStudentAssignment = gin.HandlerFunc(func(c *gin.Context) {
 					Username:       a.TeacherUsername,
 					ProfilePicture: a.TeacherProfilePicture,
 				},
+				AvailableUntil: a.AvailableUntil,
 			})
 	}
 
@@ -65,11 +67,12 @@ var GetStudentAssignmentsById = gin.HandlerFunc(func(c *gin.Context) {
 	}
 
 	type Assignment struct {
-		Id          string       `json:"id"`
-		Title       string       `json:"title"`
-		Description string       `json:"description"`
-		DueDate     string       `json:"dueDate"`
-		Submissions []Submission `json:"submissions"`
+		Id             string       `json:"id"`
+		Title          string       `json:"title"`
+		Description    string       `json:"description"`
+		DueDate        string       `json:"dueDate"`
+		Submissions    []Submission `json:"submissions"`
+		AvailableUntil string       `json:"availableUntil"`
 	}
 
 	id := c.Param("id")
@@ -113,11 +116,12 @@ AssignmentLoop:
 	}
 
 	jsonAssignment := Assignment{
-		Id:          as[0].AssignmentId,
-		Title:       as[0].Title,
-		Description: as[0].Description,
-		DueDate:     as[0].DueDate,
-		Submissions: jsonSubmissions,
+		Id:             as[0].AssignmentId,
+		Title:          as[0].Title,
+		Description:    as[0].Description,
+		DueDate:        as[0].DueDate,
+		Submissions:    jsonSubmissions,
+		AvailableUntil: as[0].AvailableUntil,
 	}
 
 	c.JSON(http.StatusOK, jsonAssignment)

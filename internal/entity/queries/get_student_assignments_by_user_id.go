@@ -14,6 +14,7 @@ type getUserAssignmentsByIdModel struct {
 	TeacherUsername       string
 	TeacherProfilePicture string
 	RecentSubmissionId    *string
+	AvailableUntil        string
 }
 
 func GetStudentAssignmentsByUserId(userId string) ([]getUserAssignmentsByIdModel, error) {
@@ -25,7 +26,8 @@ func GetStudentAssignmentsByUserId(userId string) ([]getUserAssignmentsByIdModel
         a.due_date, 
         owner.username AS teacher_username, 
         owner.profile_picture as teacher_profile_picture, 
-        s.id as recent_submission_id 
+        s.id as recent_submission_id,
+		a.available_until
     FROM "user" 
     INNER JOIN student_assignment ON "user".id = student_assignment.student_id 
     INNER JOIN assignment AS a ON student_assignment.assignment_id = a.id 
@@ -58,7 +60,7 @@ func GetStudentAssignmentsByUserId(userId string) ([]getUserAssignmentsByIdModel
 
 		var a dbModel
 
-		if err := rows.Scan(&a.AssignmentId, &a.Title, &a.Description, &a.DueDate, &a.TeacherUsername, &a.TeacherProfilePicture, &a.RecentSubmissionId); err != nil {
+		if err := rows.Scan(&a.AssignmentId, &a.Title, &a.Description, &a.DueDate, &a.TeacherUsername, &a.TeacherProfilePicture, &a.RecentSubmissionId, &a.AvailableUntil); err != nil {
 			return make([]getUserAssignmentsByIdModel, 0), err
 		}
 
@@ -70,6 +72,7 @@ func GetStudentAssignmentsByUserId(userId string) ([]getUserAssignmentsByIdModel
 			TeacherUsername:       a.TeacherUsername,
 			TeacherProfilePicture: a.TeacherProfilePicture,
 			RecentSubmissionId:    a.RecentSubmissionId,
+			AvailableUntil:        a.AvailableUntil,
 		})
 	}
 

@@ -15,6 +15,7 @@ type studentAssignment struct {
 	SubmitDate               string
 	SubmissionCorrectOutputs int
 	SubmissionTestRuns       int
+	AvailableUntil           string
 }
 
 func GetStudentAssignmentsByAssignmentId(aId string) ([]studentAssignment, error) {
@@ -27,7 +28,8 @@ func GetStudentAssignmentsByAssignmentId(aId string) ([]studentAssignment, error
 		s.id AS submission_id, 
 		s.submit_date, 
 		s.correct_outputs, 
-		s.tests_run 
+		s.tests_run,
+		a.available_until
 	FROM assignment AS a 
 	LEFT JOIN submission AS s ON s.assignment_id = a.id 
 	WHERE a.id=$1;
@@ -49,7 +51,7 @@ func GetStudentAssignmentsByAssignmentId(aId string) ([]studentAssignment, error
 
 	for rows.Next() {
 		var s dbModel
-		rows.Scan(&s.AssignmentId, &s.Title, &s.Description, &s.DueDate, &s.SubmissionId, &s.SubmitDate, &s.SubmissionCorrectOutputs, &s.SubmissionTestRuns)
+		rows.Scan(&s.AssignmentId, &s.Title, &s.Description, &s.DueDate, &s.SubmissionId, &s.SubmitDate, &s.SubmissionCorrectOutputs, &s.SubmissionTestRuns, &s.AvailableUntil)
 
 		var sId *string = nil
 
@@ -67,6 +69,7 @@ func GetStudentAssignmentsByAssignmentId(aId string) ([]studentAssignment, error
 			SubmitDate:               s.SubmitDate,
 			SubmissionCorrectOutputs: s.SubmissionCorrectOutputs,
 			SubmissionTestRuns:       s.SubmissionTestRuns,
+			AvailableUntil:           s.AvailableUntil,
 		})
 	}
 
